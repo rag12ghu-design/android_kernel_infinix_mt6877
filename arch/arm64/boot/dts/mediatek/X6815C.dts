@@ -1,0 +1,68 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2021-2023 MediaTek Inc.
+ * Copyright (C) 2024-2026 The LineageOS Project
+ * Device tree overlay / board DTS for Infinix Zero 5G 2023 (X6815C)
+ */
+
+#include "mt6877.dts"
+
+/ {
+	model = "Infinix Zero 5G 2023";
+	compatible = "infinix,X6815C", "mediatek,MT6877";
+};
+
+&dsi0 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	panel1@0 {
+		compatible = "tianma,nt36672c,vdo,120hz";
+		reg = <0>;
+		reset-gpios = <&pio 40 0>;
+		bias-gpios = <&pio 107 0>, <&pio 108 0>;
+		pinctrl-names = "default";
+		status = "okay";
+
+		port {
+			panel_in1: endpoint {
+				remote-endpoint = <&dsi_out>;
+			};
+		};
+	};
+
+	ports {
+		port {
+			dsi_out: endpoint {
+				remote-endpoint = <&panel_in1>;
+			};
+		};
+	};
+};
+
+&spi4 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	touch@0 {
+		compatible = "novatek,NVT-ts-spi";
+		reg = <0>;
+		spi-max-frequency = <8000000>;
+		status = "okay";
+	};
+};
+
+&spi5 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	fingerprint@0 {
+		compatible = "tran_fp";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		status = "okay";
+	};
+};
